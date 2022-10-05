@@ -1,3 +1,9 @@
+# AWS INFO (FOR REVIEWERS)
+
+Bucket (no-public-access) - http://my-cloudx-bucket.s3-website-us-east-1.amazonaws.com/
+
+Cloudfront - https://d1wtoxjb5s42ah.cloudfront.net/
+
 # Shop Angular Cloudfront
 
 Angular version: ~12.
