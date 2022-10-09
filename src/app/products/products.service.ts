@@ -36,35 +36,25 @@ export class ProductsService extends ApiService {
   }
 
   getProductById(id: string): Observable<Product | null> {
-    if (!this.endpointEnabled('bff')) {
-      console.warn(
-        'Endpoint "bff" is disabled. To enable change your environment.ts config'
-      );
+    const url = this.getUrl('product', `products/${id}`);
+    try {
       return this.http
-        .get<Product[]>('/assets/products.json')
-        .pipe(
-          map(
-            (products) => products.find((product) => product.id === id) || null
-          )
-        );
+        .get<{ product: Product }>(url)
+        .pipe(map((resp) => resp.product));
+    } catch (e) {
+      console.error(`An error occurred while getting product with ${id} - id`)
+      return of(null);
     }
-
-    const url = this.getUrl('bff', `products/${id}`);
-    return this.http
-      .get<{ product: Product }>(url)
-      .pipe(map((resp) => resp.product));
   }
 
   getProducts(): Observable<Product[]> {
-    if (!this.endpointEnabled('bff')) {
-      console.warn(
-        'Endpoint "bff" is disabled. To enable change your environment.ts config'
-      );
-      return this.http.get<Product[]>('/assets/products.json');
+    const url = this.getUrl('product', 'products');
+    try {
+     return this.http.get<any>(url).pipe(map((resp) => resp.products));
+    } catch (e) {
+      console.error('An error occurred while getting products')
+      return of([]);
     }
-
-    const url = this.getUrl('bff', 'products');
-    return this.http.get<Product[]>(url);
   }
 
   getProductsForCheckout(ids: string[]): Observable<Product[]> {
