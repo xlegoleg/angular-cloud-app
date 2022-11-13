@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import { Injectable } from '@angular/core';
 
 import { EMPTY, Observable, of, throwError } from 'rxjs';
@@ -12,15 +14,14 @@ import { ApiService } from '../core/api.service';
 })
 export class ProductsService extends ApiService {
   createNewProduct(product: Product): Observable<Product> {
-    if (!this.endpointEnabled('bff')) {
-      console.warn(
-        'Endpoint "bff" is disabled. To enable change your environment.ts config'
-      );
-      return EMPTY;
-    }
-
-    const url = this.getUrl('bff', 'products');
-    return this.http.post<Product>(url, product);
+    const url = this.getUrl('product', 'products');
+    return this.http.post<Product>(url, product, {
+      headers: {
+        "Access-Control-Allow-Headers" : "Content-Type",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Origin": "*"
+      }
+    });
   }
 
   editProduct(id: string, changedProduct: Product): Observable<Product> {
