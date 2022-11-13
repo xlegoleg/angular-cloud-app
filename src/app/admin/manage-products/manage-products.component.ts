@@ -36,6 +36,8 @@ export class ManageProductsComponent implements OnInit {
       .subscribe(() => {
         this.selectedFile = null;
         this.cdr.markForCheck();
+      }, (error: unknown) => {
+        console.error('An error occurred while uploading file', error);
       });
   }
 }
